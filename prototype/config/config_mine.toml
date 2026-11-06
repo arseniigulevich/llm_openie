@@ -1,0 +1,64 @@
+# Modular LLM OpenIE pipeline configuration — MINE, FULL document-level run.
+# Relative paths are resolved against the directory of THIS file (prototype/config/).
+#
+# MINE is a DOCUMENT-level benchmark: each unit is a whole essay, not a sentence.
+# The input is the list of all 100 essay_content strings (built from
+# data/MINE/mine_dataset_full.json).
+#
+# Two steps to produce a MINE-format extraction file:
+#   1. Run the prototype:
+#        python -m prototype prototype/config/config_mine.toml
+#      -> writes ../results/mine_full/extractions.json  ({essay_content: [[s,p,o],...]})
+#   2. Convert to the {id: {essay_topic, entities, edges, relations}} format the
+#      MINE evaluation consumes (matches by exact essay_content), saving alongside
+#      the other system files in data/MINE/:
+#        python tools/prototype_to_mine_graph.py \
+#            --extractions prototype/results/mine_full/extractions.json \
+#            --out data/MINE/llm_mine.json
+
+[input]
+# JSON list of the 100 MINE essays (document level).
+path = "../../data/MINE/mine_essays_full.json"
+limit = 0            # 0 = process every essay (the full dataset)
+
+[output]
+dir = "../results/mine_full"
+filename = "extractions.json"
+limit = 0
+
+[llm]
+endpoint = "https://llm3-compute.cms.hu-berlin.de/v1/"
+model = ""           # "" = auto-detect from the endpoint's /models
+max_concurrency = 8  # max in-flight LLM calls (shared across all stages and units)
+max_tokens = 4000    # essays are long; doc-level extraction needs the headroom
+
+[prompts]
+dir = "../../prompts/llm_openie"
+
+# Known stages: atomise, coref, extract_entities, extract_triples, verify
+[stages]
+atomise = true
+coref = true
+extract_entities = true
+extract_triples = true
+verify = true
+
+[stages.repeats]
+
+# Inject few-shot examples (from each stage's *.examples.json) before "Source text:".
+[fewshot]
+atomise = true
+coref = true
+extract_entities = true
+extract_triples = true
+verify = true
+k = 0                # 0 = use all examples in the file; >0 caps the number of shots
+
+[extract_triples]
+# When true, the entities from the extract_entities stage are appended to the
+# triple-extraction prompt, preceded by `entities_instruction`.
+use_entities = true
+entities_instruction = "Only consider relations between these entities:"
+
+[runtime]
+chunk_size = 50      # essays are large; smaller asyncio batches keep memory bounded

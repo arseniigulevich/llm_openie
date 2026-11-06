@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Generated evaluation and prototype output
+results/
+prototype/results/
+stats/
+
+# Element-embedding caches, fetched from the embedding endpoint on the first run (can be several GB)
+embeddings_dict*.json
+uniqueness/
+
+# Model and HF caches
+.cache/
+wandb/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+*.swp
+
+# Logs and secrets
+*.log
+.env

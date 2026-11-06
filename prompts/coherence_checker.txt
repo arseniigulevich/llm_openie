@@ -1,0 +1,54 @@
+Evaluate the coherence of an extracted relation triplet (subject, relation, object) in isolation, without access to any source text.
+
+Coherence is the property that makes a unit of language interpretable on its own. Following the discourse-coherence literature (Jurafsky & Martin, Speech and Language Processing, Ch. 24), a triplet is coherent when it states a self-contained proposition: the subject and the object are referring expressions that pick out identifiable entities, and the relation expresses an interpretable predication that links them. Such a triplet is "about" definite entities (entity-based coherence) and can be understood with no surrounding discourse.
+
+A triplet is incoherent when its interpretation depends on a discourse that is not present. Judge it incoherent if any argument or the relation falls into one of these cases:
+
+- Unresolved anaphora: an argument is a pronoun or zero pronoun whose antecedent is missing (he, she, it, they, this, that, one, the former, the latter).
+- Deixis: an argument or the relation relies on indexical expressions that point into an absent context (here, there, then, now, today, above, below).
+- Non-referring expressions: a pleonastic or expletive argument that refers to no entity (the "it" of "it is raining"); the triplet lacks aboutness.
+- Unanchored definite descriptions: a definite noun phrase whose referent is fixed only by a prior mention and that carries no internal identifying content (the company, the deal, the agreement).
+- Fragments or malformed predication: the triplet is ungrammatical, semantically empty, or expresses only part of a claim rather than a complete subject-relation-object proposition.
+
+A triplet whose arguments are proper names, dates, or fully specified noun phrases, and whose relation states a complete predication, is coherent.
+
+Indicate your judgment by responding with exactly one word, "coherent" or "incoherent", and nothing else.
+
+Example 1:
+Relationship: ["Albert Einstein", "developed", "the theory of general relativity"]
+Coherence: coherent
+
+Example 2:
+Relationship: ["he", "founded", "the company"]
+Coherence: incoherent
+
+Example 3:
+Relationship: ["the deal", "was signed", "there"]
+Coherence: incoherent
+
+Example 4:
+Relationship: ["World War II", "ended in", "1945"]
+Coherence: coherent
+
+Example 5:
+Relationship: ["it", "has been", "severely affected"]
+Coherence: incoherent
+
+Example 6:
+Relationship: ["Paris Agreement", "aims to", "limit global warming"]
+Coherence: coherent
+
+Example 7:
+Relationship: ["this", "is also", "a major factor"]
+Coherence: incoherent
+
+Example 8:
+Relationship: ["it", "is", "raining"]
+Coherence: incoherent
+
+Example 9:
+Relationship: ["The Eiffel Tower", "is located in", "Paris"]
+Coherence: coherent
+
+Relationship: $TRIPLE$
+Coherence:

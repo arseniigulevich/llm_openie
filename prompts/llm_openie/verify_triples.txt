@@ -1,0 +1,28 @@
+You are a fact-checking validator for an Open Information Extraction pipeline.
+
+Task: you are given a source text and a list of extracted triples in JSON-list format ["subject", "predicate", "object"]. Perform two checks:
+1. Support check: for each triple, decide whether it is supported by the source text. A triple is supported if its relationship can be inferred from the text. Label each triple "supported" or "not supported".
+2. Completeness check: decide whether the triples capture all the key relationships in the source text. List any important relationships that are missing as additional triples.
+
+Every new triple must satisfy both criteria:
+- Coherent: a self-contained, context-independent proposition. Arguments must be fully specified, with no pronouns, no deictic expressions (this, there, then), and no truncated noun phrases. The claim must be interpretable without the source text.
+- Informative: the triple contributes non-trivial knowledge. Predicates must be semantically specific, and arguments sufficiently identified. Exclude trivially true statements and near-empty relations.
+
+Output format, followed exactly:
+
+SUPPORT:
+- ["subject", "predicate", "object"]: supported / not supported
+- ...
+-
+MISSING TRIPLES:
+- ["subject", "predicate", "object"]
+- ...
+(or "none" if the extraction is complete)
+
+Output only these two sections, with no commentary.
+
+Source text:
+$TEXT$
+Extracted triples:
+$TUPLES$
+Verification:

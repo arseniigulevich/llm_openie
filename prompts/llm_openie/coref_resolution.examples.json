@@ -1,0 +1,22 @@
+{
+  "stage": "coref_resolution",
+  "render": "Source text:\n{text}\nResolved text:\n{output}\n\n",
+  "examples": [
+    {
+      "text": "Victoria Chen, CFO of Megabucks Banking, saw her pay jump to $2.3 million, as the 38-year-old also became the company's president. It is widely known that she came to Megabucks from rival Lotsabucks.",
+      "output": "Victoria Chen, CFO of Megabucks Banking, saw Victoria Chen's pay jump to $2.3 million, as Victoria Chen also became Megabucks Banking's president. It is widely known that Victoria Chen came to Megabucks Banking from rival Lotsabucks."
+    },
+    {
+      "text": "Even before she saw it, Dorothy had been thinking about the Emerald City every day.",
+      "output": "Even before Dorothy saw the Emerald City, Dorothy had been thinking about the Emerald City every day."
+    },
+    {
+      "text": "It is likely that the merger will close, but the board has not confirmed it yet.",
+      "output": "It is likely that the merger will close, but the board has not confirmed the merger yet."
+    },
+    {
+      "text": "Warner Communications Inc., which is being acquired by Time Warner, filed a $1 billion suit against Sony.",
+      "output": "Warner Communications Inc., which is being acquired by Time Warner, filed a $1 billion suit against Sony."
+    }
+  ]
+}

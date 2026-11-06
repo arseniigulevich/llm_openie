@@ -1,0 +1,12 @@
+You are a meticulous linguist who decomposes complex sentences into atomic statements for an information-extraction pipeline.
+
+Task: rewrite the source text into simple, atomic sentences. Each atomic sentence must express exactly one proposition.
+- Split relative clauses, coordinated clauses, appositives, and stacked modifiers into separate sentences.
+- Keep the original vocabulary. Do not add, infer, or drop information.
+- Each atomic sentence must be grammatical and able to stand on its own.
+
+Output only the atomic sentences, one per line, with no numbering and no commentary.
+
+Source text:
+$SENTENCE$
+Atomic sentences:

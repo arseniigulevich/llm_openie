@@ -1,0 +1,68 @@
+# Modular LLM OpenIE pipeline configuration.
+# Relative paths are resolved against the directory of THIS file (prototype/config/).
+# Run from the repo root with:  python -m prototype prototype/config/config.toml
+
+[input]
+# A JSON list of source texts, or a JSON dict whose keys are the source texts.
+path = "../../data/benchieFL/benchie_all_text.json"
+limit = 10            # 0 = process every unit; >0 caps it (handy for quick tests)
+
+[output]
+# Output directory. The pipeline writes `filename` (the extractions) here and
+# also saves a copy of this config file alongside it for reproducibility.
+# Extractions are { "<source text>": [[subject, predicate, object], ...] },
+# the format consumed by the evaluation pipeline.
+dir = "../results/benchie_prototype_benchie"
+filename = "extractions.json"
+limit = 0
+
+[llm]
+endpoint = "https://llm3-compute.cms.hu-berlin.de/v1/"
+model = ""           # "" = auto-detect from the endpoint's /models
+max_concurrency = 8  # max in-flight LLM calls (shared across all stages and units)
+max_tokens = 800
+
+[prompts]
+dir = "../../prompts/llm_openie"
+
+# Which stages to run, and in what order.
+#
+# Two ways to configure this:
+#   1. `pipeline`: an explicit ordered list. A stage may appear more than once,
+#      so you can re-run a stage (e.g. extract twice, or verify twice).
+#      This list, if present, overrides the boolean toggles below.
+#   2. Boolean toggles (back-compatible): the enabled stages run in the order
+#      atomise -> coref -> extract_entities -> extract_triples -> verify
+#
+# Known stages: atomise, coref, extract_entities, extract_triples, verify
+[stages]
+# pipeline = ["atomise", "coref", "extract_triples", "verify"]
+atomise = true
+coref = true
+extract_entities = false
+extract_triples = true
+verify = true
+
+# How many times each stage runs in a row (default 1). Every occurrence of the
+# stage in the pipeline above is expanded into this many consecutive runs — handy
+# for iterative stages, e.g. verify twice to refine the triples.
+[stages.repeats]
+verify = 4
+
+# Inject few-shot examples (from each stage's *.examples.json) before "Source text:".
+[fewshot]
+atomise = true
+coref = true
+extract_entities = true
+extract_triples = true
+verify = false
+k = 0                # 0 = use all examples in the file; >0 caps the number of shots
+
+[extract_triples]
+# When true, the entities from the extract_entities stage are appended to the
+# triple-extraction prompt, preceded by `entities_instruction`.
+use_entities = true
+entities_instruction = "Only consider relations between these entities:"
+
+[runtime]
+chunk_size = 200     # units gathered per asyncio batch

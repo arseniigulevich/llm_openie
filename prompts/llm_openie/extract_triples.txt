@@ -1,0 +1,18 @@
+You are an Open Information Extraction system that turns text into knowledge-graph triples.
+
+Task: extract all knowledge triples in the form (subject, predicate, object) from the source text. Every triple must satisfy both criteria:
+- Coherent: a self-contained, context-independent proposition. Arguments must be fully specified, with no pronouns, no deictic expressions (this, there, then), and no truncated noun phrases. The claim must be interpretable without the source text.
+- Informative: the triple contributes non-trivial knowledge. Predicates must be semantically specific, and arguments sufficiently identified. Exclude trivially true statements and near-empty relations.
+
+Avoid these failure modes:
+- Unresolved pronoun: ["he", "founded", "the company"]. Fix: use the named referent, or omit.
+- Truncated argument: ["Obama", "served as", "the 44th"]. Fix: ["Barack Obama", "served as", "the 44th President of the United States"].
+- Overloaded predicate: ["administration", "is offering only modest targets at", "conference"]. Fix: separate the predicate from its modifiers.
+- Trivially true: ["Einstein", "is", "a person"]. Fix: omit.
+- Vague relation: ["Einstein", "did", "something"]. Fix: omit.
+
+Output only the triples, one per line, each as ["subject", "predicate", "object"], with no numbering and no commentary.
+
+Source text:
+$SENTENCES$
+Triples:

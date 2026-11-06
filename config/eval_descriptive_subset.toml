@@ -1,0 +1,87 @@
+# Evaluation config for the descriptive subset of the thesis (Sections 7.4.1 and 7.5).
+#
+# Each system or prototype configuration is read with three scores:
+#   1. the descriptive subset, the mean of US, FS, Coherence and the surprisal F1 (S-f1)
+#      per extraction set, on all three datasets;
+#   2. the gold-based CS F1 (harmonic mean of CS-p and CS-r) on BenchIE-FL and WiRe57;
+#   3. the length-normalised MINE score R_norm = R / max(1, kappa) on MINE.
+# This config computes the underlying scores (US, FS, Coherence, SS, CS, MINE) on the three
+# datasets of the stage ablation; descriptive_subset.py then derives the three scores.
+#
+# CaRB and ROBUST work only on the ROBUST dataset and are not part of this config; see
+# robust_carb/robust_scoring.py.
+#
+# Run from the cleaned_up/ directory (all relative paths resolve against the working dir):
+#   python evaluate.py --config config/eval_descriptive_subset.toml
+#   python descriptive_subset.py --config config/eval_descriptive_subset.toml
+
+[general]
+results_dir = "./results/descriptive_subset"
+stats_dir   = "./results/descriptive_subset/stats"
+topical_dir = "./topical"
+llm_endpoint = "https://llm3-compute.cms.hu-berlin.de/v1/"   # chat endpoint for FS, Coherence and the MINE judge
+llm_temperature = 0.1
+ss_model = "Qwen/Qwen2.5-1.5B"     # causal LM of the surprisal score
+max_concurrent_systems = 1         # MINE graph resolution uses a process-global DSPy config
+max_llm_concurrency = 16
+entailment_batch_size = 128
+save_stats_separate = false
+compact_results = true
+
+[embeddings]
+# Element embeddings for US and CS. The per-dataset files below do not ship with this
+# folder; they are created on the first run by fetching every missing vector once from
+# the embedding endpoint (Qwen3-Embedding-8B) and written back (save_new = true).
+path = "./data/benchieFL/embeddings_dict_hu.json"
+api_endpoint = "https://llm5-compute.cms.hu-berlin.de/v1"
+api_model = "llm5"
+save_new = true
+
+[metrics]
+US = true
+FS = true
+Coherence = true
+SS = true            # surprisal: S-r, S-p, S-f1 (atomicity-weighted)
+CS = true            # skipped automatically on MINE, which has no gold triples
+MINE = true          # MINE dataset only (the block flagged mine = true); uses the bundled kg_gen/
+TS = false           # not part of the descriptive subset
+GS = false
+Entailment = false
+
+[datasets.benchie]
+display_name = "BenchIE-FL"
+ground_truth = "./data/benchieFL/benchie_processed.json"
+extractions_dir = "./data/benchieFL"
+extraction_template = "benchie_{system}.json"
+lda_model = "benchie"
+embeddings_path = "./data/benchieFL/embeddings_dict_hu.json"
+systems = ["llm"] # "clausie", "openie5", "openie6", "stanford_openie",
+
+[datasets.wire57_doc_level]
+display_name = "WiRe57 (document level)"
+ground_truth = "./data/WiRE57/WIRE57_doc_level/doc_level_ground_truth.json"
+extractions_dir = "./data/WiRE57/WIRE57_doc_level"
+extraction_template = "{system}_doc_level.json"
+lda_model = "wire57"
+embeddings_path = "./data/WiRE57/embeddings_dict_hu.json"
+systems = ["llm"] # "clausie", "openie5", "openie6", "stanford_openie", 
+
+[datasets.mine]
+display_name = "MINE"
+mine = true                        # graph-form extractions, facts instead of gold triples
+extractions_dir = "./data/MINE"
+extraction_template = "{system}_mine.json"
+lda_model = "mine"
+embeddings_path = "./data/MINE/embeddings_dict_hu.json"
+systems = ["llm"] # "clausie", "openie5", "openie6", "stanford_openie", "kggen", 
+
+# To score prototype configurations as in the stage ablation, add one entry per
+# configuration under system_paths (it overrides extraction_template), e.g.:
+#
+# [datasets.benchie.system_paths]
+# core   = "./prototype/results/benchie_core/extractions.json"
+# verify = "./prototype/results/benchie_verify/extractions.json"
+#
+# For MINE, convert the prototype output to graph form first:
+#   python tools/prototype_to_mine_graph.py --extractions prototype/results/mine_full/extractions.json --out data/MINE/core_mine.json
+# and add "core" to datasets.mine.systems (or a system_paths entry).

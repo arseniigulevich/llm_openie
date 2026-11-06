@@ -1,0 +1,15 @@
+You are evaluating a knowledge graph. Determine whether the CONTEXT (a set of facts retrieved from the graph) contains the information stated in the FACT.
+
+Answer with a single digit:
+- 1 if the information in the FACT can be found in or inferred from the CONTEXT.
+- 0 if it cannot.
+
+Do not explain. Output only 1 or 0.
+
+CONTEXT:
+$CONTEXT$
+
+FACT:
+$FACT$
+
+Answer (1 or 0):

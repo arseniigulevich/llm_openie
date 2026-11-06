@@ -1,0 +1,16 @@
+{
+  "stage": "verify_triples",
+  "render": "Source text:\n{text}\nExtracted triples:\n{tuples}\nVerification:\n{output}\n\n",
+  "examples": [
+    {
+      "text": "Boston College left the Big East Conference and joined the Atlantic Coast Conference on July 1, 2005. There were rumours it might rejoin someday.",
+      "tuples": "[\"Boston College\", \"left\", \"the Big East Conference\"]\n[\"Boston College\", \"joined\", \"the Atlantic Coast Conference\"]\n[\"Boston College\", \"might rejoin\", \"the Big East Conference\"]",
+      "output": "SUPPORT:\n- [\"Boston College\", \"left\", \"the Big East Conference\"]: supported\n- [\"Boston College\", \"joined\", \"the Atlantic Coast Conference\"]: supported\n- [\"Boston College\", \"might rejoin\", \"the Big East Conference\"]: not supported\n\nMISSING TRIPLES:\n- [\"Boston College\", \"joined the Atlantic Coast Conference on\", \"July 1, 2005\"]"
+    },
+    {
+      "text": "Marie Curie won the Nobel Prize in Physics in 1903.",
+      "tuples": "[\"Marie Curie\", \"won\", \"the Nobel Prize in Physics\"]\n[\"Marie Curie\", \"is\", \"a chemist\"]",
+      "output": "SUPPORT:\n- [\"Marie Curie\", \"won\", \"the Nobel Prize in Physics\"]: supported\n- [\"Marie Curie\", \"is\", \"a chemist\"]: not supported\n\nMISSING TRIPLES:\n- [\"Marie Curie\", \"won the Nobel Prize in Physics in\", \"1903\"]"
+    }
+  ]
+}

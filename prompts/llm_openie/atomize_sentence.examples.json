@@ -1,0 +1,18 @@
+{
+  "stage": "atomize_sentence",
+  "render": "Source text:\n{sentence}\nAtomic sentences:\n{output}\n\n",
+  "examples": [
+    {
+      "sentence": "Boston College left the Big East Conference and joined the Atlantic Coast Conference on July 1, 2005.",
+      "output": "Boston College left the Big East Conference.\nBoston College joined the Atlantic Coast Conference.\nBoston College joined the Atlantic Coast Conference on July 1, 2005."
+    },
+    {
+      "sentence": "Marie Curie, who was born in Warsaw, won the Nobel Prize in Physics in 1903 and the Nobel Prize in Chemistry in 1911.",
+      "output": "Marie Curie was born in Warsaw.\nMarie Curie won the Nobel Prize in Physics in 1903.\nMarie Curie won the Nobel Prize in Chemistry in 1911."
+    },
+    {
+      "sentence": "The Steinbrenner family added a monument to Monument Park on September 20, 2010 to honor Steinbrenner.",
+      "output": "The Steinbrenner family added a monument to Monument Park.\nThe monument was added on September 20, 2010.\nThe monument was added to honor Steinbrenner."
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "stage": "extract_triples",
+  "render": "Source text:\n{sentences}\nTriples:\n{output}\n\n",
+  "examples": [
+    {
+      "sentences": "Boston College left the Big East Conference. Boston College joined the Atlantic Coast Conference on July 1, 2005.",
+      "entities": "Boston College\nBig East Conference\nAtlantic Coast Conference\nJuly 1, 2005",
+      "output": "[\"Boston College\", \"left\", \"the Big East Conference\"]\n[\"Boston College\", \"joined\", \"the Atlantic Coast Conference\"]\n[\"Boston College\", \"joined the Atlantic Coast Conference on\", \"July 1, 2005\"]"
+    },
+    {
+      "sentences": "Marie Curie was born in Warsaw in 1867. Marie Curie was the first woman to win a Nobel Prize. Marie Curie won the Nobel Prize in Physics in 1903.",
+      "entities": "Marie Curie\nWarsaw\n1867\nNobel Prize\nNobel Prize in Physics\n1903",
+      "output": "[\"Marie Curie\", \"was born in\", \"Warsaw\"]\n[\"Marie Curie\", \"was born in\", \"1867\"]\n[\"Marie Curie\", \"was the first woman to win\", \"a Nobel Prize\"]\n[\"Marie Curie\", \"won the Nobel Prize in Physics in\", \"1903\"]"
+    },
+    {
+      "sentences": "The Obama administration announced modest greenhouse gas reduction targets at the Copenhagen climate conference. Environmental groups criticized the targets as insufficient.",
+      "entities": "the Obama administration\ngreenhouse gas reduction targets\nthe Copenhagen climate conference\nenvironmental groups",
+      "output": "[\"the Obama administration\", \"announced greenhouse gas reduction targets at\", \"the Copenhagen climate conference\"]\n[\"environmental groups\", \"criticized as insufficient\", \"the Obama administration's greenhouse gas reduction targets\"]"
+    }
+  ]
+}

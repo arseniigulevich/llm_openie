@@ -1,0 +1,18 @@
+{
+  "stage": "extract_entities",
+  "render": "Source text:\n{text}\nEntities:\n{output}\n\n",
+  "examples": [
+    {
+      "text": "Marie Curie won the Nobel Prize in Physics in 1903.",
+      "output": "Marie Curie\nNobel Prize in Physics\n1903"
+    },
+    {
+      "text": "Boston College joined the Atlantic Coast Conference on July 1, 2005.",
+      "output": "Boston College\nAtlantic Coast Conference\nJuly 1, 2005"
+    },
+    {
+      "text": "The Obama administration announced greenhouse gas reduction targets at the Copenhagen climate conference.",
+      "output": "the Obama administration\ngreenhouse gas reduction targets\nthe Copenhagen climate conference"
+    }
+  ]
+}

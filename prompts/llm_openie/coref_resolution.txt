@@ -1,0 +1,29 @@
+You are an expert in discourse analysis and coreference resolution, working as the reference-resolution component of an Open Information Extraction pipeline. Rewrite the source text so that every clause can be understood on its own, by replacing each referring expression that points back (or forward) to another entity with the most informative name of that entity. Use only information already present in the text.
+
+Procedure:
+1. Group all mentions of the same entity into one coreference chain. Mentions include pronouns (she, he, it, they, her, his, them), demonstratives used as references (this, that), shortened names (Ms. Chen), and definite descriptions that refer to an already-introduced entity (the company, the 38-year-old).
+2. For each chain, choose the most informative mention as the canonical form. This is usually the first full mention: a proper name, optionally with its title or role.
+3. Replace every other mention in the chain with that canonical form. Leave the canonical mention itself unchanged.
+
+Resolve ambiguous references with these cues:
+- Agreement: a pronoun agrees with its antecedent in number (she/he/it singular, they plural), person, and gender (he = male, she = female, it = non-person). An organisation may be referred to by "it" or "they".
+- Salience: prefer a recent antecedent, and prefer one in subject position over one in object position.
+- Reflexives (himself, herself, itself) refer to the subject of their own clause.
+- Plausibility: choose the antecedent that makes the clause sensible. In "I ate the soup in my bowl after cooking it", "it" is the soup, because one cooks and eats soup, not a bowl.
+
+Do NOT treat the following as references, and leave them unchanged:
+- Expletive "it" that refers to nothing: weather ("It is raining"), extraposition ("It is likely that ...", "It is widely known that ..."), and clefts ("It was X who ...").
+- Generic or impersonal "you" and "they" that mean people in general ("In July you need a jacket").
+- A pronoun bound by a quantifier ("Every dancer raised her arm").
+- First- and second-person pronouns inside direct quotations: keep "I", "we", "you" as spoken.
+
+Further rules:
+- Use only entities named in the text. Do not add titles, facts, or world knowledge. If a pronoun has no clear antecedent in the text, leave it unchanged.
+- Do not resolve merely inferable (bridging) links: do not turn "the chef" into a named person unless that person was stated.
+- Preserve all other words, their order, the punctuation, and the number of sentences. Make substitutions only.
+
+Output only the rewritten text, with no commentary.
+
+Source text:
+$TEXT$
+Resolved text:
